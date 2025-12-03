@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application de Recommandation Musicale - ESP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+    
+    <!-- Skip to content -->
+    <a href="#main-content" class="skip-to-content">Aller au contenu principal</a>
+
+    <!-- Navigation Dots -->
+    <nav class="nav-dots" role="navigation" aria-label="Navigation entre sections">
+        <button class="dot" data-section="0" aria-label="Section Hero">
+            <span class="dot-tooltip">Accueil</span>
+        </button>
+        <button class="dot" data-section="1" aria-label="Section Analyse">
+            <span class="dot-tooltip">Analyse</span>
+        </button>
+        <button class="dot" data-section="2" aria-label="Section IA">
+            <span class="dot-tooltip">IA Configurable</span>
+        </button>
+        <button class="dot" data-section="3" aria-label="Section Exploration">
+            <span class="dot-tooltip">Exploration</span>
+        </button>
+        <button class="dot" data-section="4" aria-label="Section Insights">
+            <span class="dot-tooltip">Insights</span>
+        </button>
+        <button class="dot" data-section="5" aria-label="Section Pourquoi">
+            <span class="dot-tooltip">Pourquoi</span>
+        </button>
+        <button class="dot" data-section="6" aria-label="Section Modules">
+            <span class="dot-tooltip">Modules</span>
+        </button>
+        <button class="dot" data-section="7" aria-label="Section CTA">
+            <span class="dot-tooltip">Rejoindre</span>
+        </button>
+    </nav>
+
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <button class="arrow arrow-up" aria-label="Section précédente">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+        </button>
+        <button class="arrow arrow-down" aria-label="Section suivante">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </button>
+    </div>
+
+    <main id="main-content">
+        <!-- SECTION 0: HERO -->
+        <section class="section hero" data-index="0">
+            <div class="section-background">
+                <svg class="bg-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <g class="breathing-shapes">
+                        <rect class="shape shape-1" x="100" y="150" width="200" height="200" fill="#8B5CF6" opacity="0.3" rx="20" filter="url(#glow)"/>
+                        <circle class="shape shape-2" cx="1000" cy="300" r="150" fill="#EC4899" opacity="0.25" filter="url(#glow)"/>
+                        <polygon class="shape shape-3" points="600,100 750,400 450,400" fill="#06B6D4" opacity="0.2" filter="url(#glow)"/>
+                        <rect class="shape shape-4" x="800" y="600" width="180" height="180" fill="#F59E0B" opacity="0.2" rx="15" filter="url(#glow)"/>
+                        <circle class="shape shape-5" cx="300" cy="650" r="120" fill="#8B5CF6" opacity="0.15" filter="url(#glow)"/>
+                    </g>
+                </svg>
+            </div>
+            
+            <div class="section-content">
+                <h1 class="hero-title">
+                    L'APPLICATION DE<br>RECOMMANDATION MUSICALE<br>
+                    <span class="highlight">QUI COMPREND VRAIMENT VOS GOÛTS</span>
+                </h1>
+                
+                <p class="hero-subtitle">Redéfinir la découverte musicale</p>
+                
+                <button class="cta-button primary" aria-label="Découvrir le concept">
+                    Découvrir le concept
+                    <span class="button-arrow">→</span>
+                </button>
+                
+                <div class="scroll-indicator">
+                    <span>Scroll pour explorer</span>
+                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: ANALYSE COMPLÈTE -->
+        <section class="section analyse" data-index="1">
+            <div class="section-background">
+                <svg class="bg-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                    <g class="tree-branches">
+                        <line class="branch" x1="600" y1="600" x2="500" y2="400" stroke="#06B6D4" stroke-width="3" opacity="0.4"/>
+                        <line class="branch" x1="600" y1="600" x2="700" y2="400" stroke="#06B6D4" stroke-width="3" opacity="0.4"/>
+                        <line class="branch" x1="600" y1="600" x2="600" y2="200" stroke="#06B6D4" stroke-width="3" opacity="0.4"/>
+                        <line class="branch" x1="500" y1="400" x2="400" y2="250" stroke="#06B6D4" stroke-width="2" opacity="0.3"/>
+                        <line class="branch" x1="500" y1="400" x2="550" y2="250" stroke="#06B6D4" stroke-width="2" opacity="0.3"/>
+                        <line class="branch" x1="700" y1="400" x2="800" y2="250" stroke="#06B6D4" stroke-width="2" opacity="0.3"/>
+                        <line class="branch" x1="700" y1="400" x2="650" y2="250" stroke="#06B6D4" stroke-width="2" opacity="0.3"/>
+                        
+                        <circle class="node" cx="600" cy="600" r="12" fill="#06B6D4"/>
+                        <circle class="node" cx="500" cy="400" r="10" fill="#06B6D4" opacity="0.7"/>
+                        <circle class="node" cx="700" cy="400" r="10" fill="#06B6D4" opacity="0.7"/>
+                        <circle class="node" cx="600" cy="200" r="10" fill="#06B6D4" opacity="0.7"/>
+                    </g>
+                </svg>
+            </div>
+            
+            <div class="section-content">
+                <div class="pillar-card">
+                    <div class="card-icon">🎵</div>
+                    <h2>Analyse Complète<br>de votre univers musical</h2>
+                    
+                    <div class="integrations">
+                        <div class="integration-item">
+                            <span class="service-name">Spotify</span>
+                        </div>
+                        <div class="integration-item">
+                            <span class="service-name">Deezer</span>
+                        </div>
+                        <div class="integration-item">
+                            <span class="service-name">Last.fm</span>
+                        </div>
+                        <div class="integration-item">
+                            <span class="service-name">Discogs</span>
+                            <span class="badge">Vinyles & CDs</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="4">0</span>
+                            <span class="stat-label">services intégrés</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="100">0</span>
+                            <span class="stat-label">% exhaustivité</span>
+                        </div>
+                    </div>
+                    
+                    <p class="card-description">
+                        Connectez vos comptes numériques et physiques pour une expérience holistique. Que vous écoutiez sur Spotify, Deezer, ou que vous collectionniez des vinyles via Discogs, nous agrégeons tout en une seule bibliothèque unifiée.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: IA CONFIGURABLE -->
+        <section class="section ia-configurable" data-index="2">
+            <div class="section-background">
+                <svg class="bg-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                    <g class="sliders-animation">
+                        <rect x="200" y="200" width="250" height="20" rx="10" fill="#EC4899" opacity="0.2"/>
+                        <circle class="slider-thumb" cx="350" cy="210" r="12" fill="#EC4899" opacity="0.6"/>
+                        
+                        <rect x="200" y="280" width="250" height="20" rx="10" fill="#EC4899" opacity="0.2"/>
+                        <circle class="slider-thumb" cx="320" cy="290" r="12" fill="#EC4899" opacity="0.6"/>
+                        
+                        <rect x="200" y="360" width="250" height="20" rx="10" fill="#EC4899" opacity="0.2"/>
+                        <circle class="slider-thumb" cx="380" cy="370" r="12" fill="#EC4899" opacity="0.6"/>
+                        
+                        <rect x="800" y="250" width="250" height="20" rx="10" fill="#EC4899" opacity="0.2"/>
+                        <circle class="slider-thumb" cx="900" cy="260" r="12" fill="#EC4899" opacity="0.6"/>
+                        
+                        <rect x="800" y="350" width="250" height="20" rx="10" fill="#EC4899" opacity="0.2"/>
+                        <circle class="slider-thumb" cx="950" cy="360" r="12" fill="#EC4899" opacity="0.6"/>
+                    </g>
+                </svg>
+            </div>
+            
+            <div class="section-content">
+                <div class="pillar-card">
+                    <div class="card-icon">⚙️</div>
+                    <h2>Une IA Configurable<br>selon vos préférences</h2>
+                    
+                    <p class="card-description">
+                        Affinez précisément vos recommandations avec des critères granulaires. Contrôlez l'énergie, l'humeur, le style, l'époque, la diversité et bien d'autres paramètres pour obtenir exactement ce que vous recherchez.
+                    </p>
+                    
+                    <div class="filter-preview">
+                        <div class="filter-item">
+                            <label>Énergie</label>
+                            <div class="slider-demo">
+                                <input type="range" min="0" max="100" value="60" disabled>
+                                <span class="slider-value">60%</span>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <label>Humeur</label>
+                            <div class="slider-demo">
+                                <input type="range" min="0" max="100" value="40" disabled>
+                                <span class="slider-value">40%</span>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <label>Diversité</label>
+                            <div class="slider-demo">
+                                <input type="range" min="0" max="100" value="75" disabled>
+                                <span class="slider-value">75%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="card-sub">Sauvegardez vos profils préférés pour un accès instant</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: EXPLORATION EN ARBRE -->
+        <section class="section exploration" data-index="3">
+            <div class="section-background">
+                <svg class="bg-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                    <g class="network-nodes">
+                        <line class="connection" x1="600" y1="400" x2="400" y2="250" stroke="#F59E0B" stroke-width="2" opacity="0.3"/>
+                        <line class="connection" x1="600" y1="400" x2="800" y2="250" stroke="#F59E0B" stroke-width="2" opacity="0.3"/>
+                        <line class="connection" x1="600" y1="400" x2="600" y2="150" stroke="#F59E0B" stroke-width="2" opacity="0.3"/>
+                        <line class="connection" x1="400" y1="250" x2="300" y2="100" stroke="#F59E0B" stroke-width="1.5" opacity="0.2"/>
+                        <line class="connection" x1="800" y1="250" x2="900" y2="100" stroke="#F59E0B" stroke-width="1.5" opacity="0.2"/>
+                        
+                        <circle class="network-node core" cx="600" cy="400" r="20" fill="#F59E0B"/>
+                        <circle class="network-node" cx="400" cy="250" r="14" fill="#F59E0B" opacity="0.6"/>
+                        <circle class="network-node" cx="800" cy="250" r="14" fill="#F59E0B" opacity="0.6"/>
+                        <circle class="network-node" cx="600" cy="150" r="14" fill="#F59E0B" opacity="0.6"/>
+                        <circle class="network-node leaf" cx="300" cy="100" r="10" fill="#F59E0B" opacity="0.4"/>
+                        <circle class="network-node leaf" cx="900" cy="100" r="10" fill="#F59E0B" opacity="0.4"/>
+                    </g>
+                </svg>
+            </div>
+            
+            <div class="section-content">
+                <div class="pillar-card">
+                    <div class="card-icon">🌳</div>
+                    <h2>Exploration Musicale<br>en Arbre</h2>
+                    
+                    <p class="card-description">
+                        Partez d'une artiste, d'un album ou d'un titre et explorez un chemin interactif de recommandations. À chaque étape, choisissez parmi plusieurs propositions pour approfondir votre découverte.
+                    </p>
+                    
+                    <div class="tree-preview">
+                        <div class="tree-interactive" id="treeDemo">
+                            <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                                <g class="tree-content">
+                                    <line x1="200" y1="50" x2="100" y2="150" stroke="#F59E0B" stroke-width="2" opacity="0.4"/>
+                                    <line x1="200" y1="50" x2="200" y2="150" stroke="#F59E0B" stroke-width="2" opacity="0.4"/>
+                                    <line x1="200" y1="50" x2="300" y2="150" stroke="#F59E0B" stroke-width="2" opacity="0.4"/>
+                                    
+                                    <circle class="tree-node clickable" cx="200" cy="50" r="15" fill="#F59E0B"/>
+                                    <circle class="tree-node" cx="100" cy="150" r="12" fill="#F59E0B" opacity="0.6"/>
+                                    <circle class="tree-node" cx="200" cy="150" r="12" fill="#F59E0B" opacity="0.6"/>
+                                    <circle class="tree-node" cx="300" cy="150" r="12" fill="#F59E0B" opacity="0.6"/>
+                                    
+                                    <text x="200" y="55" text-anchor="middle" fill="white" font-size="10" font-weight="bold" pointer-events="none">Root</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <p class="tree-hint">Cliquez sur un nœud pour explorer</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: INSIGHTS & ADN MUSICAL -->
+        <section class="section insights" data-index="4">
+            <div class="section-background">
+                <svg class="bg-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                    <g class="dna-spiral">
+                        <path class="spiral-strand" d="M 600,100 Q 700,150 600,200 T 600,400 T 600,600" stroke="#8B5CF6" stroke-width="3" fill="none" opacity="0.4"/>
+                        <path class="spiral-strand" d="M 600,100 Q 500,150 600,200 T 600,400 T 600,600" stroke="#06B6D4" stroke-width="3" fill="none" opacity="0.4"/>
+                        
+                        <circle class="pulse-node" cx="600" cy="200" r="8" fill="#8B5CF6" opacity="0.5"/>
+                        <circle class="pulse-node" cx="600" cy="400" r="8" fill="#06B6D4" opacity="0.5"/>
+                        <circle class="pulse-node" cx="600" cy="600" r="8" fill="#8B5CF6" opacity="0.5"/>
+                    </g>
+                </svg>
+            </div>
+            
+            <div class="section-content">
+                <div class="pillar-card">
+                    <div class="card-icon">✨</div>
+                    <h2>Insights Visuels &<br>ADN Musical</h2>
+                    
+                    <p class="card-description">
+                        Découvrez votre profil musical unique à travers des dashboards interactifs et des rapports personnalisés. Comprenez l'évolution de vos goûts, identifiez les phases musicales et explorez des corrélations inattendues.
+                    </p>
+                    
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <h4>Profil Global</h4>
+                            <p>Statistiques complètes sur vos écoutes</p>
+                        </div>
+                        <div class="insight-card">
+                            <h4>Évolution Temporelle</h4>
+                            <p>Comment vos goûts ont changé</p>
+                        </div>
+                        <div class="insight-card">
+                            <h4>Patterns Avancés</h4>
+                            <p>Phases musicales et corrélations</p>
+                        </div>
+                        <div class="insight-card">
+                            <h4>Rapports Personnalisés</h4>
+                            <p>Vos 10 ans de musique en un coup d'œil</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: POURQUOI CE PROJET -->
+        <section class="section pourquoi" data-index="5">
+            <div class="section-background">
+                <svg class="bg-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                    <g class="converging-shapes">
+                        <polygon class="converge" points="600,400 500,250 700,250" fill="#8B5CF6" opacity="0.2"/>
+                        <polygon class="converge" points="600,400 400,200 800,200" fill="#EC4899" opacity="0.15"/>
+                        <circle class="converge" cx="600" cy="400" r="100" fill="#06B6D4" opacity="0.1"/>
+                        <rect class="converge" x="450" y="300" width="300" height="200" fill="#F59E0B" opacity="0.1" rx="20"/>
+                    </g>
+                </svg>
+            </div>
+            
+            <div class="section-content">
+                <h2 class="section-title">Pourquoi ce Projet ESP?</h2>
+                
+                <div class="why-grid">
+                    <div class="why-card">
+                        <div class="why-icon">🤖</div>
+                        <h3>Challenge IA & Data</h3>
+                        <p>Développer un moteur de recommandation intelligent capable d'analyser des millions de données musicales et de générer des suggestions pertinentes.</p>
+                    </div>
+                    
+                    <div class="why-card">
+                        <div class="why-icon">🌐</div>
+                        <h3>Multi-Plateforme</h3>
+                        <p>Intégrer plusieurs services streaming et bases de données, normaliser les formats hétérogènes et créer une expérience unifiée.</p>
+                    </div>
+                    
+                    <div class="why-card">
+                        <div class="why-icon">✨</div>
+                        <h3>Expérience Utilisateur</h3>
+                        <p>Concevoir une interface immersive et interactive qui rend la découverte musicale intuitive, engageante et amusante.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: MODULES TECHNIQUE -->
+        <section class="section modules" data-index="6">
+            <div class="section-content">
+                <h2 class="section-title">Architecture du Projet</h2>
+                
+                <div class="timeline-horizontal">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">1</div>
+                        <h4>Bibliothèque</h4>
+                        <p>Import & gestion</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">2</div>
+                        <h4>Recommandations</h4>
+                        <p>Moteur IA</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">3</div>
+                        <h4>Analyse</h4>
+                        <p>Insights visuels</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">4</div>
+                        <h4>Interface</h4>
+                        <p>UI/UX</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">5</div>
+                        <h4>Intégrations</h4>
+                        <p>API externes</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: CALL TO ACTION FINAL -->
+        <section class="section cta-final" data-index="7">
+            <div class="section-background">
+                <svg class="bg-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                    <g class="final-convergence">
+                        <circle class="pulse-circle" cx="600" cy="400" r="50" fill="#8B5CF6" opacity="0.2"/>
+                        <circle class="pulse-circle" cx="600" cy="400" r="100" fill="#EC4899" opacity="0.1"/>
+                        <circle class="pulse-circle" cx="600" cy="400" r="150" fill="#06B6D4" opacity="0.08"/>
+                    </g>
+                </svg>
+            </div>
+            
+            <div class="section-content">
+                <div class="cta-container">
+                    <h2>Prêt à Redéfinir la Découverte Musicale?</h2>
+                    <p>Rejoignez l'aventure et construisez avec nous une nouvelle génération de recommandation musicale.</p>
+                    
+                    <button class="cta-button primary large">
+                        Rejoindre l'Aventure
+                        <span class="button-arrow">→</span>
+                    </button>
+                    
+                    <div class="cta-footer">
+                        <p class="baseline">Plus personnelle. Plus exhaustive. Plus intelligente.</p>
+                        <div class="footer-links">
+                            <a href="#" class="footer-link">GitHub</a>
+                            <a href="#" class="footer-link">Documentation</a>
+                            <a href="#" class="footer-link">Contact</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/svg-animations.js"></script>
+    <script src="js/interactions.js"></script>
+</body>
+</html>
