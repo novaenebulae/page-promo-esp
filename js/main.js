@@ -7,7 +7,7 @@ class PageController {
         this.currentSection = 0;
         this.totalSections = 8;
         this.isScrolling = false;
-        this.scrollThreshold = 50;
+        this.scrollThreshold = 2+10;
         this.sections = document.querySelectorAll('.section');
         this.dots = document.querySelectorAll('.dot');
         this.arrowUp = document.querySelector('.arrow-up');

@@ -7,38 +7,59 @@ class CustomCursor {
         this.cursor = document.querySelector('.custom-cursor');
         this.mouseX = 0;
         this.mouseY = 0;
-        this.trail = [];
+        this.posX = 0;
+        this.posY = 0;
+        this.rafId = null;
         this.init();
     }
 
     init() {
-        document.addEventListener('mousemove', (e) => this.updateCursor(e));
+        document.addEventListener('mousemove', (e) => this.onMouseMove(e), { passive: true });
         document.addEventListener('mouseenter', () => this.showCursor());
         document.addEventListener('mouseleave', () => this.hideCursor());
+
+        // Start render loop
+        this.start();
     }
 
-    updateCursor(e) {
+    onMouseMove(e) {
         this.mouseX = e.clientX;
         this.mouseY = e.clientY;
 
-        this.cursor.style.left = this.mouseX + 'px';
-        this.cursor.style.top = this.mouseY + 'px';
-
-        // Add trail effect
-        this.trail.push({ x: this.mouseX, y: this.mouseY });
-        if (this.trail.length > 5) this.trail.shift();
-
-        // Update cursor appearance on hover
+        // Update cursor appearance on hover using delegated target
         const target = e.target;
-        if (target.matches('button, a, .clickable, input')) {
-            this.cursor.style.scale = '1.5';
-            this.cursor.style.borderColor = '#EC4899';
-            this.cursor.style.boxShadow = '0 0 15px rgba(236, 72, 153, 0.8)';
+        if (target && target.matches && target.matches('button, a, .clickable, input, select')) {
+            this.cursor.dataset.hover = 'true';
         } else {
-            this.cursor.style.scale = '1';
-            this.cursor.style.borderColor = '#06B6D4';
-            this.cursor.style.boxShadow = '0 0 8px rgba(6, 182, 212, 0.6)';
+            this.cursor.dataset.hover = 'false';
         }
+    }
+
+    start() {
+        const render = () => {
+            // Smoothly interpolate position (lerp)
+            const ease = 0.18;
+            this.posX += (this.mouseX - this.posX) * ease;
+            this.posY += (this.mouseY - this.posY) * ease;
+
+            // Use transform for better performance
+            this.cursor.style.transform = `translate(${this.posX - 8}px, ${this.posY - 8}px)`;
+
+            // Visual states
+            if (this.cursor.dataset.hover === 'true') {
+                this.cursor.style.scale = '1.5';
+                this.cursor.style.borderColor = '#06B6D4';
+                this.cursor.style.boxShadow = '0 0 15px rgba(6, 182, 212, 0.8)';
+            } else {
+                this.cursor.style.scale = '1';
+                this.cursor.style.borderColor = '#06B6D4';
+                this.cursor.style.boxShadow = '0 0 8px rgba(6, 182, 212, 0.6)';
+            }
+
+            this.rafId = requestAnimationFrame(render);
+        };
+
+        this.rafId = requestAnimationFrame(render);
     }
 
     showCursor() {
@@ -329,7 +350,7 @@ class PageTransition {
         
         setTimeout(() => {
             window.location.href = href;
-        }, 500);
+        }, 1000);
     }
 }
 

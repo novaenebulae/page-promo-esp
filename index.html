@@ -11,6 +11,9 @@
 <body>
     <!-- Custom Cursor -->
     <div class="custom-cursor"></div>
+        
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" aria-label="Basculer le thème" title="Thème sombre/clair">🌓</button>
     
     <!-- Skip to content -->
     <a href="#main-content" class="skip-to-content">Aller au contenu principal</a>
@@ -72,11 +75,11 @@
                         </filter>
                     </defs>
                     <g class="breathing-shapes">
-                        <rect class="shape shape-1" x="100" y="150" width="200" height="200" fill="#8B5CF6" opacity="0.3" rx="20" filter="url(#glow)"/>
-                        <circle class="shape shape-2" cx="1000" cy="300" r="150" fill="#EC4899" opacity="0.25" filter="url(#glow)"/>
-                        <polygon class="shape shape-3" points="600,100 750,400 450,400" fill="#06B6D4" opacity="0.2" filter="url(#glow)"/>
-                        <rect class="shape shape-4" x="800" y="600" width="180" height="180" fill="#F59E0B" opacity="0.2" rx="15" filter="url(#glow)"/>
-                        <circle class="shape shape-5" cx="300" cy="650" r="120" fill="#8B5CF6" opacity="0.15" filter="url(#glow)"/>
+                        <rect class="shape shape-1" x="100" y="150" width="200" height="200" fill="#8B5CF6" opacity="0.5" rx="20" filter="url(#glow)"/>
+                        <circle class="shape shape-2" cx="1000" cy="300" r="150" fill="#EC4899" opacity="0.45" filter="url(#glow)"/>
+                        <polygon class="shape shape-3" points="600,100 750,400 450,400" fill="#06B6D4" opacity="0.4" filter="url(#glow)"/>
+                        <rect class="shape shape-4" x="800" y="600" width="180" height="180" fill="#F59E0B" opacity="0.4" rx="15" filter="url(#glow)"/>
+                        <circle class="shape shape-5" cx="300" cy="650" r="120" fill="#8B5CF6" opacity="0.35" filter="url(#glow)"/>
                     </g>
                 </svg>
             </div>
@@ -132,16 +135,19 @@
                     <div class="integrations">
                         <div class="integration-item">
                             <span class="service-name">Spotify</span>
+                            <span class="service-logo">🎧</span>
                         </div>
                         <div class="integration-item">
                             <span class="service-name">Deezer</span>
+                            <span class="service-logo">🎶</span>
                         </div>
                         <div class="integration-item">
                             <span class="service-name">Last.fm</span>
+                            <span class="service-logo">📻</span>
                         </div>
                         <div class="integration-item">
                             <span class="service-name">Discogs</span>
-                            <span class="badge">Vinyles & CDs</span>
+                            <span class="service-logo">💿</span>
                         </div>
                     </div>
                     
@@ -199,21 +205,21 @@
                         <div class="filter-item">
                             <label>Énergie</label>
                             <div class="slider-demo">
-                                <input type="range" min="0" max="100" value="60" disabled>
+                                <input type="range" min="0" max="100" value="60">
                                 <span class="slider-value">60%</span>
                             </div>
                         </div>
                         <div class="filter-item">
                             <label>Humeur</label>
                             <div class="slider-demo">
-                                <input type="range" min="0" max="100" value="40" disabled>
+                                <input type="range" min="0" max="100" value="40">
                                 <span class="slider-value">40%</span>
                             </div>
                         </div>
                         <div class="filter-item">
                             <label>Diversité</label>
                             <div class="slider-demo">
-                                <input type="range" min="0" max="100" value="75" disabled>
+                                <input type="range" min="0" max="100" value="75">
                                 <span class="slider-value">75%</span>
                             </div>
                         </div>
