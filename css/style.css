@@ -1,5 +1,7 @@
 
-html * {cursor:none}
+/* Hide native cursor globally, ensure it's hidden on interactive elements too */
+html * { cursor: none; }
+html, body, a, button, input, select, textarea, label { cursor: none !important; }
 
 
 :root {
@@ -998,7 +1000,7 @@ main {
 }
 
 .hero-title .highlight {
-    /*background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));*/
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
@@ -1345,15 +1347,15 @@ main {
 }
 
 .insight-card {
-    background: var(--color-secondary);
+    background: var(--card-glass-bg, rgba(255,255,255,0.5));
+    backdrop-filter: blur(8px);
     padding: var(--space-20);
     border-radius: var(--radius-base);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-card-border);
     transition: all var(--duration-normal) ease;
 }
 
 .insight-card:hover {
-    background: var(--color-secondary-hover);
     border-color: var(--color-primary);
     transform: translateY(-4px);
     box-shadow: var(--shadow-md);
@@ -1465,7 +1467,6 @@ main {
 }
 
 .timeline-item:hover {
-    background: var(--color-secondary);
     transform: translateY(-10px);
     box-shadow: 0 var(--space-16) 40px rgba(var(--color-teal-500-rgb), 0.3);
 }
@@ -1508,7 +1509,12 @@ main {
 
 .cta-container {
     text-align: center;
-    max-width: 600px;
+    max-width: 700px;
+    background: var(--card-glass-bg, rgba(255,255,255,0.5));
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-32);
 }
 
 .cta-container h2 {
@@ -1555,6 +1561,65 @@ main {
 .footer-link:hover {
     color: var(--color-primary);
     transform: translateY(-2px);
+}
+
+/* ================================
+   THEME TOGGLE BUTTON
+   ================================ */
+
+.theme-toggle {
+    position: fixed;
+    top: var(--space-24);
+    right: var(--space-32);
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background: transparent;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 600;
+    transition: all var(--duration-fast) var(--ease-standard);
+}
+
+.theme-toggle:hover, .theme-toggle.active {
+    background-color: var(--color-primary);
+    color: var(--color-btn-primary-text);
+    transform: scale(1.08);
+    box-shadow: 0 0 var(--space-20) rgba(var(--color-teal-500-rgb), 0.6);
+}
+
+/* ================================
+   INTEGRATIONS LOGOS
+   ================================ */
+
+.integration-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.service-logo {
+    font-size: 2rem;
+}
+
+/* Glass background token and dark theme */
+:root {
+    --card-glass-bg: rgba(255, 255, 255, 0.44);
+}
+
+[data-theme='dark'] {
+    --color-background: rgba(12, 14, 15, 1);
+    --color-surface: rgba(18, 20, 22, 1);
+    --color-text: rgba(245, 245, 245, 0.95);
+    --color-text-secondary: rgba(245, 245, 245, 0.72);
+    --color-border: rgba(255, 255, 255, 0.14);
+    --color-card-border: rgba(255, 255, 255, 0.14);
+    --color-card-border-inner: rgba(255, 255, 255, 0.08);
+    --color-select-caret: rgba(245, 245, 245, 0.85);
+    --card-glass-bg: rgba(0, 0, 0, 0.35);
 }
 
 /* ================================

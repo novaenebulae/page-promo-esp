@@ -26,13 +26,10 @@ class CustomCursor {
         this.mouseX = e.clientX;
         this.mouseY = e.clientY;
 
-        // Update cursor appearance on hover using delegated target
+        // Update cursor appearance on hover using closest to handle inner elements
         const target = e.target;
-        if (target && target.matches && target.matches('button, a, .clickable, input, select')) {
-            this.cursor.dataset.hover = 'true';
-        } else {
-            this.cursor.dataset.hover = 'false';
-        }
+        const interactive = target && target.closest && target.closest('button, a, .clickable, input, select');
+        this.cursor.dataset.hover = interactive ? 'true' : 'false';
     }
 
     start() {
@@ -90,17 +87,17 @@ class ButtonInteractions {
     }
 
     onButtonHover(e) {
-        const button = e.target;
+        const button = e.currentTarget;
         button.style.transform = 'scale(1.05)';
     }
 
     onButtonLeave(e) {
-        const button = e.target;
+        const button = e.currentTarget;
         button.style.transform = 'scale(1)';
     }
 
     onButtonClick(e) {
-        const button = e.target;
+        const button = e.currentTarget;
         
         // Ripple effect
         this.createRipple(button, e);
@@ -395,6 +392,10 @@ document.addEventListener('DOMContentLoaded', () => {
     new PageTransition();
     new LazyLoad();
 
+    // Theme toggle and sliders enhancements
+    new ThemeToggle();
+    RangeSlidersEnhancer.init();
+
     // Add ripple styles
     const style = document.createElement('style');
     style.textContent = `
@@ -444,3 +445,59 @@ const optimizeAnimations = () => {
 };
 
 setTimeout(optimizeAnimations, 1000);
+
+// ================================
+// THEME TOGGLE
+// ================================
+
+class ThemeToggle {
+    constructor() {
+        this.button = document.querySelector('.theme-toggle');
+        if (!this.button) return;
+        this.prefKey = 'esp-theme';
+        this.applyStoredTheme();
+        this.button.addEventListener('click', () => this.toggle());
+        this.syncStyle();
+    }
+
+    applyStoredTheme() {
+        const stored = localStorage.getItem(this.prefKey);
+        if (stored === 'dark' || stored === 'light') {
+            document.documentElement.setAttribute('data-theme', stored);
+            this.button.setAttribute('aria-pressed', stored === 'dark' ? 'true' : 'false');
+        }
+    }
+
+    toggle() {
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem(this.prefKey, next);
+        this.button.setAttribute('aria-pressed', next === 'dark' ? 'true' : 'false');
+        this.syncStyle();
+    }
+
+    syncStyle() {
+        // Optional visual feedback
+        this.button.classList.toggle('active', document.documentElement.getAttribute('data-theme') === 'dark');
+    }
+}
+
+// ================================
+// RANGE SLIDERS ENHANCER
+// ================================
+
+class RangeSlidersEnhancer {
+    static init() {
+        const sliders = document.querySelectorAll('.slider-demo input[type="range"]');
+        sliders.forEach(slider => {
+            const valueEl = slider.parentElement?.querySelector('.slider-value');
+            const update = () => {
+                if (valueEl) valueEl.textContent = slider.value + '%';
+            };
+            slider.addEventListener('input', update);
+            slider.addEventListener('change', update);
+            update();
+        });
+    }
+}

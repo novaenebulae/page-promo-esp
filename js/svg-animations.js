@@ -6,6 +6,15 @@ class SVGAnimationManager {
     constructor() {
         this.sections = document.querySelectorAll('.section');
         this.svgs = document.querySelectorAll('.bg-svg');
+        // Sample genealogy data for the discovery tree
+        this.treeData = {
+            'Radiohead': ['OK Computer', 'Kid A', 'Thom Yorke'],
+            'OK Computer': ['Airbag', 'Paranoid Android', 'No Surprises'],
+            'Kid A': ['Everything In Its Right Place', 'How to Disappear Completely', 'Idioteque'],
+            'Thom Yorke': ['The Eraser', 'ANIMA', 'Atoms for Peace'],
+            'Atoms for Peace': ['AMOK']
+        };
+        this.maxTreeDepth = 2; // root + 2 levels
         this.init();
     }
 
@@ -42,67 +51,116 @@ class SVGAnimationManager {
 
     setupTreeInteraction(container) {
         const svg = container.querySelector('svg');
-        const nodes = svg.querySelectorAll('.tree-node.clickable');
+        if (!svg) return;
 
-        nodes.forEach(node => {
-            node.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.redrawTree(svg, node);
-            });
+        // Initial draw using root label if present
+        const rootNode = svg.querySelector('.tree-node.clickable');
+        const rootLabel = rootNode?.getAttribute('data-label') || 'Radiohead';
+        this.drawGenealogy(svg, rootLabel, 0);
 
-            node.addEventListener('mouseover', () => {
-                node.style.cursor = 'pointer';
-                node.style.filter = 'drop-shadow(0 0 10px rgba(245, 158, 11, 0.8))';
-            });
-
-            node.addEventListener('mouseout', () => {
-                node.style.filter = 'drop-shadow(0 0 4px rgba(245, 158, 11, 0.4))';
-            });
+        // Delegate clicks to nodes
+        svg.addEventListener('click', (e) => {
+            const node = e.target.closest && e.target.closest('.tree-node');
+            if (!node) return;
+            const label = node.getAttribute('data-label');
+            const depth = parseInt(node.getAttribute('data-depth') || '0', 10);
+            if (depth >= this.maxTreeDepth) return; // do not go deeper
+            this.drawGenealogy(svg, label, depth);
         });
     }
 
-    redrawTree(svg, newRoot) {
+    drawGenealogy(svg, rootLabel, currentDepth) {
         const treeContent = svg.querySelector('.tree-content');
-        
-        // Remove previous lines
-        const oldLines = treeContent.querySelectorAll('line');
-        oldLines.forEach(line => line.remove());
+        if (!treeContent) return;
+        // Clear
+        treeContent.innerHTML = '';
 
-        // Get current nodes
-        const nodes = treeContent.querySelectorAll('.tree-node');
-        const rootNode = newRoot;
-        const rootCx = parseFloat(rootNode.getAttribute('cx'));
-        const rootCy = parseFloat(rootNode.getAttribute('cy'));
+        // Layout constants
+        const width = 400;
+        const xCenter = 200;
+        const levelY = [50, 150, 240];
 
-        // Move clicked node to center
-        rootNode.setAttribute('cx', 200);
-        rootNode.setAttribute('cy', 50);
-        rootNode.classList.add('clickable');
+        // Create root node
+        const root = this.createNode(xCenter, levelY[0], rootLabel, currentDepth);
+        treeContent.appendChild(root.circle);
+        treeContent.appendChild(root.text);
 
-        // Redistribute other nodes
-        const otherNodes = Array.from(nodes).filter(n => n !== rootNode);
-        const angleStep = (Math.PI * 2) / otherNodes.length;
+        // Determine first-level children
+        const children = this.treeData[rootLabel] || [];
 
-        otherNodes.forEach((node, index) => {
-            const angle = angleStep * index;
-            const radius = 100;
-            const x = 200 + Math.cos(angle) * radius;
-            const y = 150 + Math.sin(angle) * radius;
+        const firstLevelX = this.distributePositions(children.length, width, 40);
+        children.slice(0, 3).forEach((childLabel, idx) => {
+            const cx = firstLevelX[idx];
+            const cy = levelY[1];
+            this.drawLink(treeContent, xCenter, levelY[0], cx, cy);
+            const childNode = this.createNode(cx, cy, childLabel, currentDepth + 1);
+            treeContent.appendChild(childNode.circle);
+            treeContent.appendChild(childNode.text);
 
-            node.setAttribute('cx', x);
-            node.setAttribute('cy', y);
-
-            // Draw line from root
-            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute('x1', 200);
-            line.setAttribute('y1', 50);
-            line.setAttribute('x2', x);
-            line.setAttribute('y2', y);
-            line.setAttribute('stroke', '#F59E0B');
-            line.setAttribute('stroke-width', 2);
-            line.setAttribute('opacity', 0.4);
-            treeContent.insertBefore(line, treeContent.firstChild);
+            // Second-level children (if within depth limit)
+            if (currentDepth + 1 < this.maxTreeDepth) {
+                const grandChildren = this.treeData[childLabel] || [];
+                const secondLevelX = this.distributePositions(grandChildren.length, width / 3, 30, cx - (width / 6));
+                grandChildren.slice(0, 3).forEach((gLabel, gIdx) => {
+                    const gcx = secondLevelX[gIdx];
+                    const gcy = levelY[2];
+                    this.drawLink(treeContent, cx, cy, gcx, gcy);
+                    const gNode = this.createNode(gcx, gcy, gLabel, currentDepth + 2);
+                    treeContent.appendChild(gNode.circle);
+                    treeContent.appendChild(gNode.text);
+                });
+            }
         });
+    }
+
+    distributePositions(count, totalWidth, margin = 40, start = 0) {
+        if (count <= 0) return [];
+        const usable = Math.max(0, totalWidth - margin * 2);
+        const step = count > 1 ? usable / (count - 1) : 0;
+        const positions = [];
+        for (let i = 0; i < count; i++) {
+            positions.push(start + margin + i * step);
+        }
+        return positions;
+    }
+
+    createNode(cx, cy, label, depth) {
+        const ns = 'http://www.w3.org/2000/svg';
+        const circle = document.createElementNS(ns, 'circle');
+        circle.setAttribute('class', 'tree-node clickable');
+        circle.setAttribute('cx', cx);
+        circle.setAttribute('cy', cy);
+        circle.setAttribute('r', depth === 0 ? 15 : 12);
+        circle.setAttribute('fill', '#F59E0B');
+        circle.setAttribute('opacity', depth === 0 ? '1' : '0.8');
+        circle.setAttribute('data-label', label);
+        circle.setAttribute('data-depth', String(depth));
+
+        const text = document.createElementNS(ns, 'text');
+        text.setAttribute('class', 'tree-label');
+        text.setAttribute('x', cx);
+        text.setAttribute('y', cy + 4);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('fill', 'white');
+        text.setAttribute('font-size', depth === 0 ? '10' : '9');
+        text.setAttribute('font-weight', 'bold');
+        text.setAttribute('pointer-events', 'none');
+        text.textContent = label;
+
+        return { circle, text };
+    }
+
+    drawLink(group, x1, y1, x2, y2) {
+        const ns = 'http://www.w3.org/2000/svg';
+        const line = document.createElementNS(ns, 'line');
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('stroke', '#F59E0B');
+        line.setAttribute('stroke-width', '2');
+        line.setAttribute('opacity', '0.45');
+        group.insertBefore(line, group.firstChild);
     }
 }
 
