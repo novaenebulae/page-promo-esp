@@ -7,19 +7,15 @@ class CustomCursor {
         this.cursor = document.querySelector('.custom-cursor');
         this.mouseX = 0;
         this.mouseY = 0;
-        this.posX = 0;
-        this.posY = 0;
         this.rafId = null;
         this.init();
     }
 
     init() {
-        document.addEventListener('mousemove', (e) => this.onMouseMove(e), { passive: true });
+        // Use pointer events for better responsiveness across inputs
+        document.addEventListener('pointermove', (e) => this.onMouseMove(e), { passive: true });
         document.addEventListener('mouseenter', () => this.showCursor());
         document.addEventListener('mouseleave', () => this.hideCursor());
-
-        // Start render loop
-        this.start();
     }
 
     onMouseMove(e) {
@@ -29,35 +25,21 @@ class CustomCursor {
         // Update cursor appearance on hover using closest to handle inner elements
         const target = e.target;
         const interactive = target && target.closest && target.closest('button, a, .clickable, input, select');
-        this.cursor.dataset.hover = interactive ? 'true' : 'false';
+        const isHover = !!interactive;
+        this.cursor.dataset.hover = isHover ? 'true' : 'false';
+
+        // Instantly move cursor, centered, then apply scale based on hover
+        const scale = isHover ? 1.5 : 1;
+        // Compose transforms so scaling doesn't offset position
+        this.cursor.style.transform = `translate3d(${this.mouseX}px, ${this.mouseY}px, 0) translate(-50%, -50%) scale(${scale})`;
+        // Visual states
+        this.cursor.style.borderColor = '#06B6D4';
+        this.cursor.style.boxShadow = isHover
+            ? '0 0 15px rgba(6, 182, 212, 0.8)'
+            : '0 0 8px rgba(6, 182, 212, 0.6)';
     }
 
-    start() {
-        const render = () => {
-            // Smoothly interpolate position (lerp)
-            const ease = 0.18;
-            this.posX += (this.mouseX - this.posX) * ease;
-            this.posY += (this.mouseY - this.posY) * ease;
-
-            // Use transform for better performance
-            this.cursor.style.transform = `translate(${this.posX - 8}px, ${this.posY - 8}px)`;
-
-            // Visual states
-            if (this.cursor.dataset.hover === 'true') {
-                this.cursor.style.scale = '1.5';
-                this.cursor.style.borderColor = '#06B6D4';
-                this.cursor.style.boxShadow = '0 0 15px rgba(6, 182, 212, 0.8)';
-            } else {
-                this.cursor.style.scale = '1';
-                this.cursor.style.borderColor = '#06B6D4';
-                this.cursor.style.boxShadow = '0 0 8px rgba(6, 182, 212, 0.6)';
-            }
-
-            this.rafId = requestAnimationFrame(render);
-        };
-
-        this.rafId = requestAnimationFrame(render);
-    }
+    // No RAF loop required anymore; movement is event-driven for zero latency
 
     showCursor() {
         this.cursor.style.opacity = '1';
@@ -465,6 +447,10 @@ class ThemeToggle {
         if (stored === 'dark' || stored === 'light') {
             document.documentElement.setAttribute('data-theme', stored);
             this.button.setAttribute('aria-pressed', stored === 'dark' ? 'true' : 'false');
+        } else {
+            // Default to light theme explicitly
+            document.documentElement.setAttribute('data-theme', 'light');
+            this.button.setAttribute('aria-pressed', 'false');
         }
     }
 

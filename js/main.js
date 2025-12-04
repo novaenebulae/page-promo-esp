@@ -23,30 +23,19 @@ class PageController {
     }
 
     setupEventListeners() {
-        // Wheel scroll
-        document.addEventListener('wheel', (e) => this.handleScroll(e), { passive: true });
+        // Disable mouse wheel scrolling entirely (no section change on wheel)
+        document.addEventListener('wheel', (e) => {
+            e.preventDefault();
+        }, { passive: false });
         
-        // Touch scroll
-        let touchStartY = 0;
-        document.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-        });
-        
+        // Disable touch swipe between sections but allow interactions on controls
         document.addEventListener('touchmove', (e) => {
-            if (this.isScrolling) return;
-            
-            const touchEndY = e.touches[0].clientY;
-            const diff = touchStartY - touchEndY;
-            
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) {
-                    this.nextSection();
-                } else {
-                    this.prevSection();
-                }
-                touchStartY = touchEndY;
+            const target = e.target;
+            const interactive = target && target.closest && target.closest('input, textarea, select, button, a, .clickable');
+            if (!interactive) {
+                e.preventDefault();
             }
-        }, { passive: true });
+        }, { passive: false });
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => this.handleKeyboard(e));
@@ -61,15 +50,7 @@ class PageController {
         });
     }
 
-    handleScroll(e) {
-        if (this.isScrolling) return;
-
-        const direction = e.deltaY > 0 ? 1 : -1;
-        
-        if (Math.abs(e.deltaY) > this.scrollThreshold) {
-            direction > 0 ? this.nextSection() : this.prevSection();
-        }
-    }
+    // Mouse wheel scrolling disabled – no handler
 
     handleKeyboard(e) {
         switch(e.key) {
@@ -104,34 +85,11 @@ class PageController {
         this.currentSection = index;
 
         const section = this.sections[index];
-        const duration = 800;
-        const startPosition = window.scrollY;
-        const endPosition = section.offsetTop;
-        const distance = endPosition - startPosition;
-        let start = null;
-
-        const easeInOutCubic = (t) => {
-            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-        };
-
-        const animation = (currentTime) => {
-            if (start === null) start = currentTime;
-            const elapsed = currentTime - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const ease = easeInOutCubic(progress);
-
-            window.scrollTo(0, startPosition + distance * ease);
-
-            if (progress < 1) {
-                requestAnimationFrame(animation);
-            } else {
-                this.isScrolling = false;
-                this.updateActiveSection(index);
-                this.triggerSectionAnimation(index);
-            }
-        };
-
-        requestAnimationFrame(animation);
+        // Instant jump without latency
+        window.scrollTo({ top: section.offsetTop, left: 0, behavior: 'auto' });
+        this.isScrolling = false;
+        this.updateActiveSection(index);
+        this.triggerSectionAnimation(index);
     }
 
     updateActiveSection(index) {

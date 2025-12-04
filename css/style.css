@@ -808,6 +808,10 @@ body {
     will-change: transform;
     transition: box-shadow 120ms ease-out, border-color 120ms ease-out, scale 120ms ease-out;
     box-shadow: 0 0 var(--space-8) rgba(var(--color-teal-500-rgb), 0.6);
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
 }
 
 /* ================================

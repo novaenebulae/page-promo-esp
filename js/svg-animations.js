@@ -53,10 +53,20 @@ class SVGAnimationManager {
         const svg = container.querySelector('svg');
         if (!svg) return;
 
-        // Initial draw using root label if present
-        const rootNode = svg.querySelector('.tree-node.clickable');
-        const rootLabel = rootNode?.getAttribute('data-label') || 'Radiohead';
-        this.drawGenealogy(svg, rootLabel, 0);
+        // Prepare state on SVG element
+        const viewBox = (svg.getAttribute('viewBox') || '0 0 800 380').split(' ').map(Number);
+        const width = viewBox[2] || 800;
+        const height = viewBox[3] || 380;
+        svg._treeState = {
+            nodes: new Map(), // label -> { x, y, depth }
+            expanded: new Set(),
+            width,
+            height,
+            levelY: [70, 190, 320]
+        };
+
+        const rootLabel = svg.getAttribute('data-root') || 'Radiohead';
+        this.initTree(svg, rootLabel);
 
         // Delegate clicks to nodes
         svg.addEventListener('click', (e) => {
@@ -64,52 +74,52 @@ class SVGAnimationManager {
             if (!node) return;
             const label = node.getAttribute('data-label');
             const depth = parseInt(node.getAttribute('data-depth') || '0', 10);
-            if (depth >= this.maxTreeDepth) return; // do not go deeper
-            this.drawGenealogy(svg, label, depth);
+            if (depth >= this.maxTreeDepth) return;
+            // Expand only if not already expanded
+            if (!svg._treeState.expanded.has(label)) {
+                svg._treeState.expanded.add(label);
+                this.expandNode(svg, label, depth);
+            }
         });
     }
 
-    drawGenealogy(svg, rootLabel, currentDepth) {
-        const treeContent = svg.querySelector('.tree-content');
-        if (!treeContent) return;
-        // Clear
-        treeContent.innerHTML = '';
+    initTree(svg, rootLabel) {
+        const group = svg.querySelector('.tree-content');
+        if (!group) return;
+        group.innerHTML = '';
+        const { width, levelY } = svg._treeState;
+        const xCenter = Math.floor(width / 2);
+        const root = this.createNode(xCenter, levelY[0], rootLabel, 0, true);
+        group.appendChild(root.circle);
+        group.appendChild(root.text);
+        svg._treeState.nodes.set(rootLabel, { x: xCenter, y: levelY[0], depth: 0 });
+    }
 
-        // Layout constants
-        const width = 400;
-        const xCenter = 200;
-        const levelY = [50, 150, 240];
+    expandNode(svg, label, depth) {
+        const group = svg.querySelector('.tree-content');
+        if (!group) return;
+        const state = svg._treeState;
+        const { width, levelY } = state;
+        const parent = state.nodes.get(label);
+        if (!parent) return;
 
-        // Create root node
-        const root = this.createNode(xCenter, levelY[0], rootLabel, currentDepth);
-        treeContent.appendChild(root.circle);
-        treeContent.appendChild(root.text);
+        const children = (this.treeData[label] || []).slice(0, 3);
+        if (!children.length) return;
 
-        // Determine first-level children
-        const children = this.treeData[rootLabel] || [];
+        // Compute a horizontal span centered on parent.x
+        const span = depth === 0 ? Math.max(480, Math.floor(width * 0.8)) : Math.max(260, Math.floor(width * 0.5));
+        const start = Math.max(40, parent.x - Math.floor(span / 2));
+        const totalWidth = Math.min(width - 80, start + span) - start;
+        const xs = this.distributePositions(children.length, totalWidth, 60, start);
+        const cy = levelY[Math.min(depth + 1, levelY.length - 1)];
 
-        const firstLevelX = this.distributePositions(children.length, width, 40);
-        children.slice(0, 3).forEach((childLabel, idx) => {
-            const cx = firstLevelX[idx];
-            const cy = levelY[1];
-            this.drawLink(treeContent, xCenter, levelY[0], cx, cy);
-            const childNode = this.createNode(cx, cy, childLabel, currentDepth + 1);
-            treeContent.appendChild(childNode.circle);
-            treeContent.appendChild(childNode.text);
-
-            // Second-level children (if within depth limit)
-            if (currentDepth + 1 < this.maxTreeDepth) {
-                const grandChildren = this.treeData[childLabel] || [];
-                const secondLevelX = this.distributePositions(grandChildren.length, width / 3, 30, cx - (width / 6));
-                grandChildren.slice(0, 3).forEach((gLabel, gIdx) => {
-                    const gcx = secondLevelX[gIdx];
-                    const gcy = levelY[2];
-                    this.drawLink(treeContent, cx, cy, gcx, gcy);
-                    const gNode = this.createNode(gcx, gcy, gLabel, currentDepth + 2);
-                    treeContent.appendChild(gNode.circle);
-                    treeContent.appendChild(gNode.text);
-                });
-            }
+        children.forEach((child, idx) => {
+            const cx = Math.max(40, Math.min(width - 40, xs[idx]));
+            this.drawLink(group, parent.x, parent.y, cx, cy);
+            const childNode = this.createNode(cx, cy, child, depth + 1, false);
+            group.appendChild(childNode.circle);
+            group.appendChild(childNode.text);
+            state.nodes.set(child, { x: cx, y: cy, depth: depth + 1 });
         });
     }
 
@@ -124,13 +134,13 @@ class SVGAnimationManager {
         return positions;
     }
 
-    createNode(cx, cy, label, depth) {
+    createNode(cx, cy, label, depth, isRoot = false) {
         const ns = 'http://www.w3.org/2000/svg';
         const circle = document.createElementNS(ns, 'circle');
         circle.setAttribute('class', 'tree-node clickable');
         circle.setAttribute('cx', cx);
         circle.setAttribute('cy', cy);
-        circle.setAttribute('r', depth === 0 ? 15 : 12);
+        circle.setAttribute('r', depth === 0 ? 18 : 14);
         circle.setAttribute('fill', '#F59E0B');
         circle.setAttribute('opacity', depth === 0 ? '1' : '0.8');
         circle.setAttribute('data-label', label);
@@ -139,10 +149,10 @@ class SVGAnimationManager {
         const text = document.createElementNS(ns, 'text');
         text.setAttribute('class', 'tree-label');
         text.setAttribute('x', cx);
-        text.setAttribute('y', cy + 4);
+        text.setAttribute('y', cy + (isRoot ? 6 : 5));
         text.setAttribute('text-anchor', 'middle');
         text.setAttribute('fill', 'white');
-        text.setAttribute('font-size', depth === 0 ? '10' : '9');
+        text.setAttribute('font-size', depth === 0 ? '14' : '12');
         text.setAttribute('font-weight', 'bold');
         text.setAttribute('pointer-events', 'none');
         text.textContent = label;

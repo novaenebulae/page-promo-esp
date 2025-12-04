@@ -892,11 +892,13 @@
 
 /* Separate animations for left and right slider thumbs to avoid misalignment */
 .sliders-animation .left-thumb {
-    animation: slideThumbLeft 4s var(--ease-standard) infinite;
+    animation: slideThumbLeft var(--T, 4s) var(--ease-standard) infinite;
+    animation-delay: var(--D, 0s);
 }
 
 .sliders-animation .right-thumb {
-    animation: slideThumbRight 4s var(--ease-standard) infinite;
+    animation: slideThumbRight var(--T, 4s) var(--ease-standard) infinite;
+    animation-delay: var(--D, 0s);
 }
 
 @keyframes slideThumbLeft {
