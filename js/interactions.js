@@ -465,7 +465,7 @@ class ThemeToggle {
 
     syncStyle() {
         // Optional visual feedback
-        this.button.classList.toggle('active', document.documentElement.getAttribute('data-theme') === 'dark');
+        this.button.classList.toggle('active', document.documentElement.getAttribute('data-theme') === 'light');
     }
 }
 

@@ -8,11 +8,9 @@ class SVGAnimationManager {
         this.svgs = document.querySelectorAll('.bg-svg');
         // Sample genealogy data for the discovery tree
         this.treeData = {
-            'Radiohead': ['OK Computer', 'Kid A', 'Thom Yorke'],
+            'Radiohead': ['OK Computer', 'Thom Yorke'],
             'OK Computer': ['Airbag', 'Paranoid Android', 'No Surprises'],
-            'Kid A': ['Everything In Its Right Place', 'How to Disappear Completely', 'Idioteque'],
             'Thom Yorke': ['The Eraser', 'ANIMA', 'Atoms for Peace'],
-            'Atoms for Peace': ['AMOK']
         };
         this.maxTreeDepth = 2; // root + 2 levels
         this.init();

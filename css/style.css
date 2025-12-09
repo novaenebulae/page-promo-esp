@@ -213,7 +213,7 @@ html, body, a, button, input, select, textarea, label { cursor: none !important;
 }
 
 /* Data attribute for manual theme switching */
-[data-color-scheme="dark"] {
+[data-theme="dark"] {
   /* RGB versions for opacity control (dark mode) */
   --color-gray-400-rgb: 119, 124, 124;
   --color-teal-300-rgb: 50, 184, 198;
@@ -268,9 +268,12 @@ html, body, a, button, input, select, textarea, label { cursor: none !important;
   --color-error-rgb: var(--color-red-400-rgb);
   --color-warning-rgb: var(--color-orange-400-rgb);
   --color-info-rgb: var(--color-gray-300-rgb);
+
+    --card-glass-bg: rgba(20, 20, 20, 0.35);
+
 }
 
-[data-color-scheme="light"] {
+[data-theme="light"] {
   /* RGB versions for opacity control (light mode) */
   --color-brown-600-rgb: 94, 82, 64;
   --color-teal-500-rgb: 33, 128, 141;
@@ -302,6 +305,8 @@ html, body, a, button, input, select, textarea, label { cursor: none !important;
   --color-error-rgb: var(--color-red-500-rgb);
   --color-warning-rgb: var(--color-orange-500-rgb);
   --color-info-rgb: var(--color-slate-500-rgb);
+    --card-glass-bg: rgba(219, 219, 219, 0.35);
+
 }
 
 /* Base styles */
@@ -542,7 +547,7 @@ select.form-control {
 
 /* Card component */
 .card {
-  background-color: var(--color-surface);
+  /*background-color: var(--color-surface);*/
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-card-border);
   box-shadow: var(--shadow-sm);
@@ -746,7 +751,6 @@ select.form-control {
 
 /* ================================
    STYLE PRINCIPAL - RECOMMANDATION MUSICALE
-   Adapted to Perplexity Design System
    ================================ */
 
 :root {
@@ -1168,7 +1172,7 @@ main {
 }
 
 .integration-item {
-    background: var(--color-secondary);
+    background: var(--color-surface);
     padding: var(--space-12) var(--space-16);
     border-radius: var(--radius-sm);
     border: 1px solid var(--color-border);
@@ -1235,7 +1239,7 @@ main {
     gap: var(--space-20);
     margin: var(--space-24) 0;
     padding: var(--space-20);
-    background: var(--color-secondary);
+    background: var(--color-surface);
     border-radius: var(--radius-base);
     border: 1px solid var(--color-card-border-inner);
 }
@@ -1351,7 +1355,7 @@ main {
 }
 
 .insight-card {
-    background: var(--card-glass-bg, rgba(255,255,255,0.5));
+    background: var(--color-surface, rgba(255,255,255,0.5));
     backdrop-filter: blur(8px);
     padding: var(--space-20);
     border-radius: var(--radius-base);
@@ -1609,222 +1613,25 @@ main {
     font-size: 2rem;
 }
 
-/* Glass background token and dark theme */
-:root {
-    --card-glass-bg: rgba(255, 255, 255, 0.44);
-}
 
-[data-theme='dark'] {
-    --color-background: rgba(12, 14, 15, 1);
-    --color-surface: rgba(18, 20, 22, 1);
-    --color-text: rgba(245, 245, 245, 0.95);
-    --color-text-secondary: rgba(245, 245, 245, 0.72);
-    --color-border: rgba(255, 255, 255, 0.14);
-    --color-card-border: rgba(255, 255, 255, 0.14);
-    --color-card-border-inner: rgba(255, 255, 255, 0.08);
-    --color-select-caret: rgba(245, 245, 245, 0.85);
-    --card-glass-bg: rgba(0, 0, 0, 0.35);
-}
+/*[data-theme='dark'] {*/
+/*    --color-background: rgba(12, 14, 15, 1);*/
+/*    --color-surface: rgba(18, 20, 22, 1);*/
+/*    --color-text: rgba(245, 245, 245, 0.95);*/
+/*    --color-text-secondary: rgba(245, 245, 245, 0.72);*/
+/*    --color-border: rgba(255, 255, 255, 0.14);*/
+/*    --color-card-border: rgba(255, 255, 255, 0.14);*/
+/*    --color-card-border-inner: rgba(255, 255, 255, 0.08);*/
+/*    --color-select-caret: rgba(245, 245, 245, 0.85);*/
+/*}*/
 
-/* ================================
-   ANIMATIONS
-   ================================ */
-
-@keyframes gradientShift {
-    0%, 100% {
-        background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
-    }
-    50% {
-        background: linear-gradient(135deg, var(--color-primary-hover), var(--color-primary));
-    }
-}
-
-@keyframes bounce {
-    0%, 100% {
-        opacity: 0.5;
-        transform: translateX(-50%) translateY(0);
-    }
-    50% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(var(--space-10));
-    }
-}
-
-@keyframes chevronBounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(var(--space-8));
-    }
-}
-
-@keyframes cardAppear {
-    0% {
-        opacity: 0;
-        transform: translateY(var(--space-24));
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes floatIcon {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-15px);
-    }
-}
-
-/* ================================
-   RESPONSIVE - MOBILE PORTRAIT (480px breakpoint)
-   ================================ */
-
-@media (max-width: 480px) {
-    .section-content {
-        padding: var(--space-20);
-    }
-
-    .hero-title {
-        font-size: var(--font-size-3xl);
-        margin-bottom: var(--space-16);
-    }
-
-    .hero-subtitle {
-        font-size: var(--font-size-base);
-        margin-bottom: var(--space-24);
-    }
-
-    .cta-button {
-        padding: var(--space-10) var(--space-20);
-        font-size: var(--font-size-sm);
-    }
-
-    .cta-button.large {
-        padding: var(--space-12) var(--space-24);
-        font-size: var(--font-size-base);
-    }
-
-    .pillar-card {
-        padding: var(--space-24);
-    }
-
-    .pillar-card h2 {
-        font-size: var(--font-size-2xl);
-        margin-bottom: var(--space-16);
-    }
-
-    .card-icon {
-        font-size: 2rem;
-        margin-bottom: var(--space-16);
-    }
-
-    .integrations {
-        grid-template-columns: 1fr;
-        gap: var(--space-12);
-    }
-
-    .stats-container {
-        grid-template-columns: 1fr;
-        gap: var(--space-16);
-    }
-
-    .stat-number {
-        font-size: var(--font-size-3xl);
-    }
-
-    .insights-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-12);
-    }
-
-    .why-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-20);
-    }
-
-    .why-card {
-        padding: var(--space-24);
-    }
-
-    .section-title {
-        font-size: var(--font-size-2xl);
-        margin-bottom: var(--space-24);
-    }
-
-    .timeline-horizontal {
-        grid-template-columns: 1fr;
-        gap: var(--space-16);
-    }
-
-    .timeline-item {
-        padding: var(--space-20);
-    }
-
-    .cta-container h2 {
-        font-size: var(--font-size-2xl);
-    }
-
-    .cta-container p {
-        font-size: var(--font-size-base);
-    }
-
-    .footer-links {
-        flex-direction: column;
-        gap: var(--space-16);
-    }
-
-    .nav-dots {
-        right: var(--space-16);
-        gap: var(--space-16);
-    }
-
-    .nav-arrows {
-        left: var(--space-16);
-        gap: var(--space-16);
-    }
-
-    .dot {
-        width: var(--space-10);
-        height: var(--space-10);
-    }
-
-    .dot.active {
-        width: var(--space-12);
-        height: var(--space-12);
-    }
-
-    .arrow {
-        width: 36px;
-        height: 36px;
-    }
-
-    .arrow svg {
-        width: var(--space-16);
-        height: var(--space-16);
-    }
-
-    .scroll-indicator {
-        bottom: var(--space-20);
-    }
-
-    .scroll-indicator span {
-        font-size: var(--font-size-xs);
-    }
-
-    .chevron {
-        width: var(--space-20);
-        height: var(--space-20);
-    }
-
-    .tree-interactive {
-        max-width: 100%;
-    }
-
-    .filter-preview {
-        padding: var(--space-16);
-    }
-}
+/*[data-theme='light'] {*/
+/*    --color-background: var(--color-cream-50);*/
+/*    --color-surface: rgba(18, 20, 22, 1);*/
+/*    --color-text: rgba(245, 245, 245, 0.95);*/
+/*    --color-text-secondary: rgba(245, 245, 245, 0.72);*/
+/*    --color-border: rgba(255, 255, 255, 0.14);*/
+/*    --color-card-border: rgba(255, 255, 255, 0.14);*/
+/*    --color-card-border-inner: rgba(255, 255, 255, 0.08);*/
+/*    --color-select-caret: rgba(245, 245, 245, 0.85);*/
+/*}*/
